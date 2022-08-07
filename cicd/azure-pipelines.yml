@@ -13,7 +13,7 @@ stages:
   - stage: Test
     displayName: Lint bicep code
     jobs:
-      job:
+      job: Test
       steps:
         script: |
           az bicep build --file templateFile
@@ -21,7 +21,7 @@ stages:
   - stage: Build
     displayName: Build bicep code
     jobs: 
-      job:
+      job: Build
       steps:
         task: AzureCLI@2
         inputs:
