@@ -7,8 +7,3 @@ pool:
 steps:
 - script: echo Just a test script
   displayName: 'Run a test script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
