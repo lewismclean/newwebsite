@@ -15,19 +15,19 @@ stages:
     jobs:
     - job: Test
       steps:
-        script: |
-          az bicep build --file templateFile
+        - script: |
+            az bicep build --file templateFile
 
   - stage: Build
     displayName: Build bicep code
     jobs: 
     - job: Build
       steps:
-        task: AzureCLI@2
-        inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
-          inlineScript: |
-            az --version
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: $(azureServiceConnection)
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              az --version
 
