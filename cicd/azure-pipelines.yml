@@ -4,6 +4,30 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Just a test script
-  displayName: 'Run a test script'
+variables:
+  resourceGroupName: 'lewis-mcleancouk'
+  templateFile: 'infra/main.bicep'
+  azureServiceConnection: 'lewis-new-website'
+
+stages:
+  - stage: Test
+    displayName: Lint bicep code
+    jobs:
+      job:
+      steps:
+        script: |
+          az bicep build --file templateFile
+
+  - stage: Build
+    displayName: Build bicep code
+    jobs: 
+      job:
+      steps:
+        task: AzureCLI@2
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            az --version
+
