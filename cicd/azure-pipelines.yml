@@ -7,19 +7,26 @@ pool:
 variables:
   resourceGroupName: 'lewis-mcleancouk'
   templateFile: 'infra/main.bicep'
+  appLocation: 'src/'
   azureServiceConnection: 'lewis-new-website'
 
 stages:
-  - stage: Test
+  - stage: TestStage
     displayName: Lint bicep code
     jobs:
     - job: Test
       steps:
-        - script: |
-            az bicep build --file templateFile
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: $(azureServiceConnection)
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              az bicep build --file templateFile
 
-  - stage: Build
+  - stage: BuildStage
     displayName: Build bicep code
+    dependsOn: TestStage
     jobs: 
     - job: Build
       steps:
@@ -30,4 +37,14 @@ stages:
             scriptLocation: inlineScript
             inlineScript: |
               az --version
+
+  # - stage: DeployStage
+  #   displayName: Deploy Static Web App
+  #   dependsOn: BuildStage
+  #   jobs:
+  #   - job:
+  #     steps:
+  #       - task: AzureStaticWebApp@0
+  #         inputs:
+  #           app_location: $(appLocation)
 
