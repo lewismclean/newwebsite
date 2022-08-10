@@ -22,7 +22,7 @@ stages:
             scriptType: bash
             scriptLocation: inlineScript
             inlineScript: |
-              az bicep build --file templateFile
+              az bicep build --file $(templateFile)
 
   - stage: BuildStage
     displayName: Build bicep code
